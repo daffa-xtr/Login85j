@@ -1,26 +1,26 @@
-name: PHP CI
+name: PHP Tests
 
 on:
   push:
   pull_request:
 
 jobs:
-  build-test:
+  test:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repo
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.2'
-        extensions: mbstring, mysqli
-        ini-values: post_max_size=256M
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mysqli
+          coverage: none
 
-    - name: Install Dependencies
-      run: composer install
+      - name: Install dependencies
+        run: composer install
 
-    - name: Run Tests
-      run: composer test
+      - name: Run PHPUnit
+        run: php vendor/bin/phpunit --testdox
